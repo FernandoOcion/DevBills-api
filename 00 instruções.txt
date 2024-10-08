@@ -1,0 +1,14 @@
+npm init -y
+npm i -D typescript
+npx tsc --init
+Configurar o tsconfig.json como está aqui
+npm i express
+npm i -D @types/express
+npx tsc (Para transformar os arquivos TS em JS)
+node ./build/server.js (Para testar se está rodando o arquivo)
+npm i -D tsx
+docker-compose up -d (Após configurar o docker-compose, dar o comando pra criar o backend)
+npm i mongoose
+npm i -D @types/node
+npm i dotenv
+docker logs devbills-api --follow (Conectar ao banco)
