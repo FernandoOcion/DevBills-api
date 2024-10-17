@@ -1,11 +1,18 @@
+import { StatusCodes } from "http-status-codes";
 import { CategoriesRepository } from "../database/repositories/categories.repository";
 import { CreateCategoryDTO } from "../dtos/categories.dto";
 import { Category } from "../entities/category.entity";
+import { AppError } from "../erros/app.error";
 
 export class CategoriesService {
 	constructor(private categoriesRepository: CategoriesRepository) {}
 
-	async create({title, color}: CreateCategoryDTO): Promise<Category> {
+	async create({ title, color }: CreateCategoryDTO): Promise<Category> {
+		const foundCategory = await this.categoriesRepository.findByTitle(title);
+
+		if (foundCategory) {
+			throw new AppError("Categoria já existe.", StatusCodes.BAD_REQUEST);
+		}
 		const category = new Category({
 			title,
 			color,
@@ -14,5 +21,11 @@ export class CategoriesService {
 		const createdCategory = await this.categoriesRepository.create(category);
 
 		return createdCategory;
+	}
+
+	async index(): Promise<Category[]> {
+		const categories = await this.categoriesRepository.index();
+
+		return categories;
 	}
 }
